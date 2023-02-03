@@ -245,38 +245,37 @@ database starts right away.
 For other tools that you want to run on your own machine, you can set up a tunnel that pretends to be a MySQL server
 running on your machine but actually sends data over SSH to your PythonAnywhere
 MySQL instance.  If you're using a Mac or Linux, you probably already have the
-right tool installed -- the `ssh` command.  If you're using Windows, see the "Using PuTTY on Windows"
-section below.
+right tool installed -- the `ssh` command.  If you're using **Windows**, see the "Using PuTTY on Windows"
+section below. 
+
+**If this is your first time using ssh, please read the text carefully or you will miss critical details that could save you alot of time.**
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Using SSH (Linux/Mac)
 
-As long as you're not running a MySQL instance locally, just invoke SSH locally
-(that is, on your own machine -- not on PythonAnywhere) like this, replacing
-**username** with your PythonAnywhere username and **yoursshhostname** with
+You can invoke SSH locally (that is, on your own machine -- not on PythonAnywhere) like this, 
+replacing **username** with your PythonAnywhere username and **yoursshhostname** with
 your SSH hostname:
-
-    :::bash
-    ssh -L 3306:username.mysql.pythonanywhere-services.com:3306 username@yoursshhostname
-
-That -L option means "forward LOCAL port 3306 to REMOTE host
-`username.mysql.pythonanywhere-services.com` port 3306".
-
-If you are running a MySQL instance locally, then it will probably already be using
-local port 3306, which means that the `ssh` command won't be able to.  You can modify your SSH invocation
-to use any other port -- this one would use the local post 3333.
 
     :::bash
     ssh -L 3333:username.mysql.pythonanywhere-services.com:3306 username@yoursshhostname
 
-**REMEMBER** You need to keep your this `ssh` process open at all times while
-you're accessing your PythonAnywhere MySQL server from your local machine! As
-soon as that closes, your forwarded connection is also lost.
-
-After all of that, you'll have a server running on your computer (hostname
-127.0.0.1, port 3306 -- or 3333 or something else if you have MySQL running locally),
-which will forward everything on to the MySQL server on PythonAnywhere.
+The -L option specifies that the local machine should listen on the specified port and forward incoming connections
+to the specified host and port on the remote machine. In this case, the local machine will listen on port 3333 and 
+forward incoming connections to the remote host username.mysql.pythonanywhere-services.com on port 3306. 
+The username@yoursshhostname at the end of the command is your **pythonanywhere** username and the remote host to log in to
+which in this case will be your SSH hostname defined at the top of this page. If you get an error while running this command,
+odds are you are running another process on port 3333 and need to specify a different port for your machine to listen on. 
+You will then be prompted to enter your password which in this case will be your **pythonanywhere** password. Upon
+sucessfully connecting **you need to keep your this `ssh` process open at all times while
+you're accessing your PythonAnywhere MySQL server from your local machine!**. Ie **do not close this terminal** .
+Instead you should open up a new terminal while keeping this process running in a seperate terminal, and scroll down below
+to **Using the tunnel** where you will be instructed on how to connect to your mysql database now that you have an ssh tunnel open.
 
 Now skip down to the "Using the tunnel" section below.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Using PuTTY on Windows
 
@@ -297,6 +296,10 @@ After all of that, you'll have a server running on your computer (hostname
 127.0.0.1, port 3306 -- or 3333 or something else if you have MySQL running locally),
 which will forward everything on to the MySQL server on PythonAnywhere.
 
+Continue reading **Using the Tunnel** to learn how to connect to your mysql database
+now that you have an ssh tunnel open.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Using the tunnel
 
